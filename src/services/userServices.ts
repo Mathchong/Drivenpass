@@ -1,14 +1,14 @@
+import { registerAccount, findByEmail } from "../repositories/usersRepository";
+import { encrypt } from '../utils/bcryptUtils'
 import { userCreator } from "../types/user";
-import { registerAccount,findByEmail } from "../repositories/usersRepository";
+import "../app/config"
 
 export async function createAccount(userData: userCreator) {
-    //valida informações do body (e-mail correto e senha padrão)
 
-    //verifica se e-mail já não é cadastrado
     const user = await findByEmail(userData.email)
-    if (user) throw{status:409, message:"E-mail already in use"}
-    //Encripta a senha
+    if (user) throw { status: 409, message: "E-mail already in use" }
 
-    //cadastra no banco e envia ok
+    userData.password = encrypt(userData.password)
+
     await registerAccount(userData)
 }

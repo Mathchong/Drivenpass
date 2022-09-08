@@ -7,14 +7,10 @@ export default class UsersController {
 
         await createAccount(req.body)
 
-        res.status(201).json({ status: 201, message: "Creted" })
+        res.status(201).json({ status: 201, message: "Created" })
     }
 
     async login(req: Request, res: Response) {
-        res.status(200).json({status:200, message: "Data Found", Data:{}})
-    }
-
-    async delete(req: Request, res: Response) {
-        res.status(204).json({status:204, message: "Deleted"})
+        res.status(200).json({ status: 200, message: "Data Found", Data: {} })
     }
 }
