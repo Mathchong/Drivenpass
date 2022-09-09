@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { createAccount } from "../services/userServices";
+import { createAccount, login } from "../services/userServices";
 
 export default class UsersController {
     async create(req: Request, res: Response) {
@@ -11,6 +11,9 @@ export default class UsersController {
     }
 
     async login(req: Request, res: Response) {
-        res.status(200).json({ status: 200, message: "Data Found", Data: {} })
+
+        const jwtToken = await login(req.body)
+
+        res.status(200).json({ status: 200, message: "Data Found", Data: {jwtToken} })
     }
 }
