@@ -6,5 +6,7 @@ export function encrypt(key: string) {
 }
 
 export function matchPassword(password: string, encryptedPassword: string): boolean {
-    return encryptedPassword === bcrypt.hashSync(password, Number(process.env.BCRYPT_KEY))
+
+    return bcrypt.compareSync(password, encryptedPassword)
+    
 }
