@@ -1,5 +1,7 @@
+import jwt from 'jsonwebtoken';
+
 import { registerAccount, findByEmail } from "../repositories/usersRepository";
-import { encrypt,matchPassword } from '../utils/bcryptUtils'
+import { encrypt, matchPassword } from '../utils/bcryptUtils'
 import { userCreator } from "../types/user";
 import "../app/config"
 
@@ -14,14 +16,26 @@ export async function createAccount(userData: userCreator) {
 }
 
 export async function login(userData: userCreator) {
-    //Validar body
-    //Verificar se conta existe
+
     const user = await findByEmail(userData.email)
     if (!user) throw { status: 404, message: "Account not found" }
 
-    //Validar se senha bate
-    if(!matchPassword(userData.password, user.password)) throw { status: 401, message: "Password is Wrong"}
+    console.log(userData.password, user.password)
+    if (!matchPassword(userData.password, user.password)) throw { status: 401, message: "Password is Wrong" }
 
-    //TODO Envia WJT para o front
-    return "JWT token"
+    const SECRET: string = process.env.TOKEN_SECRET_KEY ?? '';
+    const EXPIRES_IN = process.env.TOKEN_EXPIRES_IN;
+    console.log(EXPIRES_IN)
+
+    const payload = {
+        userId: user.id,
+        email: user.email
+    }
+    const jwtConfig = {
+        expiresIn: EXPIRES_IN
+    };
+
+    const token = jwt.sign(payload, SECRET, jwtConfig);
+
+    return token
 }
