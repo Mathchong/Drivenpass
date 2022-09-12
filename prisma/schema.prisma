@@ -50,6 +50,7 @@ model wifis {
 
 model cards {
   id         Int      @id @default(autoincrement())
+  title      String   @db.VarChar(50)
   number     Int
   name       String
   cvv        Int
@@ -59,6 +60,8 @@ model cards {
   type       Type
   users      users    @relation(fields: [userId], references: [id])
   userId     Int
+
+  @@unique([title, userId])
 }
 
 enum Type {
