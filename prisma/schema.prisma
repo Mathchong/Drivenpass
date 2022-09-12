@@ -53,9 +53,9 @@ model cards {
   title      String   @db.VarChar(50)
   number     Int
   name       String
-  cvv        Int
-  expiration DateTime
-  password   Int
+  cvv        String
+  expiration String
+  password   String
   is_virtual Boolean
   type       Type
   users      users    @relation(fields: [userId], references: [id])
